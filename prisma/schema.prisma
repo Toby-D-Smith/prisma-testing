@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Staff {
+  id          Int       @id(map: "PK__staff__3213E83F897B155E") @default(autoincrement())
+  firstName  String    @db.VarChar(50) @map("first_name")
+  lastName   String?   @db.VarChar(50) @map("last_name")
+  startDate  DateTime  @db.Date @map("start_date")
+  finishDate DateTime? @db.Date @map("finish_date")
+  teamId     Int
+  team        Team?      @relation(fields: [teamId], references: [id])
+  position    String    @db.VarChar(50)
+  manager     Int?
+
+  @@map("staff")
+}
+
+model Team {
+  id        Int    @id(map: "PK__team__3213E83FED0B53A5") @default(autoincrement())
+  name      String @db.VarChar(50)
+  teamLead Int? @map("team_lead")
+  staff Staff[]
+
+  @@map("team")
+}
