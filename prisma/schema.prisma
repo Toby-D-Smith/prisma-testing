@@ -8,24 +8,34 @@ datasource db {
 }
 
 model Staff {
-  id         Int       @id(map: "PK__staff__3213E83F897B155E") @default(autoincrement())
-  firstName  String    @map("first_name") @db.VarChar(50)
-  lastName   String?   @map("last_name") @db.VarChar(50)
-  startDate  DateTime  @map("start_date") @db.Date
-  finishDate DateTime? @map("finish_date") @db.Date
-  teamId     Int
-  team       Team?     @relation(fields: [teamId], references: [id])
-  position   String    @db.VarChar(50)
-  manager    Int?
+  id          String    @id @default(uuid())
+  firstName   String    @map("first_name") @db.VarChar(50)
+  lastName    String    @map("last_name") @db.VarChar(50)
+  startDate   DateTime  @default(now()) @map("start_date") @db.Date
+  finishDate  DateTime? @map("finish_date") @db.Date
+  position    String    @db.VarChar(50)
+  createdDate DateTime  @default(now())
+  updatedDate DateTime  @default(now())
+  managerId   String?   @map("manager")
+  manager     Staff?    @relation("manager", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  managees    Staff[]   @relation("manager")
+  teamId      Int?      @map("team_id")
+  team        Team?     @relation("Staff", fields: [teamId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  teamLeader  Team?     @relation("TeamLead")
 
+  @@unique([firstName, lastName])
+  // @@id([firstName, lastName])
   @@map("staff")
 }
 
 model Team {
-  id       Int     @id(map: "PK__team__3213E83FED0B53A5") @default(autoincrement())
-  name     String  @db.VarChar(50)
-  teamLead Int?    @map("team_lead")
-  staff    Staff[]
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(50)
+  teamLeadId  String?  @unique @map("team_lead")
+  teamLead    Staff?   @relation("TeamLead", fields: [teamLeadId], references: [id])
+  staff       Staff[]  @relation("Staff")
+  createdDate DateTime @default(now())
+  updatedDate DateTime @default(now())
 
   @@map("team")
 }
