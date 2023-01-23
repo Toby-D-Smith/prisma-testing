@@ -7,4 +7,4 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(users)
 
-export { app }
+export default app

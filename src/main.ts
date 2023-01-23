@@ -1,5 +1,5 @@
 import config from 'config'
-import { app } from './app'
+import app from './app'
 
 const server = app.listen(config.get('api.expressPort'), () => {
     console.log(
