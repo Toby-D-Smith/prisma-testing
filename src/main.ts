@@ -1,7 +1,5 @@
-import express from 'express'
 import config from 'config'
-
-const app = express()
+import { app } from './app'
 
 const server = app.listen(config.get('api.expressPort'), () => {
     console.log(
