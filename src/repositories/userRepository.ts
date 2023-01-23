@@ -2,10 +2,26 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient({ log: ['query'] })
 
-export async function createUser() {
+export async function createUser({
+    firstName,
+    lastName,
+    position,
+}: {
+    firstName: string
+    lastName: string
+    position: string
+}) {
     try {
+        const user = {
+            firstName: firstName,
+            lastName: lastName,
+            position: position,
+        }
+
         console.log('IN REPO')
-        const response = await prisma.staff.findMany()
+        const response = await prisma.staff.create({
+            data: user,
+        })
         // const response = await prisma.staff.findMany({
         //     // where: {
         //     //     team: {
@@ -31,7 +47,6 @@ export async function createUser() {
         //     //     },
         //     // },
         // })
-        console.log(response)
 
         return response
     } catch (e) {
