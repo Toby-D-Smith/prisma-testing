@@ -6,7 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "npx ts-node src/main.ts",
-        "format": "prettier --write \"*.ts\""
+        "format": "prettier --write \"src/**/*.ts\""
     },
     "keywords": [],
     "author": "",

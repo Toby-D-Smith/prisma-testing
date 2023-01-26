@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { response } from 'express'
 
 const prisma = new PrismaClient({ log: ['query'] })
 
@@ -33,8 +32,8 @@ export async function getUsers({
     firstName,
     lastName,
 }: {
-    firstName: string
-    lastName: string
+    firstName: string | undefined
+    lastName: string | undefined
 }) {
     try {
         const user: { firstName?: string; lastName?: string } = {}
@@ -46,7 +45,6 @@ export async function getUsers({
             user.lastName = lastName
         }
 
-        console.log('IN REPO')
         const response = await prisma.staff.findMany({
             where: user,
         })

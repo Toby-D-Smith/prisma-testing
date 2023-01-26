@@ -14,7 +14,10 @@ const userService = {
             throw e
         }
     },
-    async getUsers(firstName: string, lastName: string) {
+    async getUsers(
+        firstName: string | undefined,
+        lastName: string | undefined
+    ) {
         try {
             const users = await this.repo.getUsers({ firstName, lastName })
             return users
