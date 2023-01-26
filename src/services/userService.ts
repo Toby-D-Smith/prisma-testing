@@ -14,5 +14,13 @@ const userService = {
             throw e
         }
     },
+    async getUsers(firstName: string, lastName: string) {
+        try {
+            const users = await this.repo.getUsers({ firstName, lastName })
+            return users
+        } catch (e) {
+            throw e
+        }
+    },
 }
 export default userService
